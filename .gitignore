@@ -165,3 +165,7 @@ msbuild.wrn
 .vs/
 # Visual Studio Code
 .vscode/
+
+
+.github/
+.angular/

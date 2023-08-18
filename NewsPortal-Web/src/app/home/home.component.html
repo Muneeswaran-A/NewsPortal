@@ -1,0 +1,120 @@
+<div class="row">
+  <div class="col w-75">
+    <div class="input-group">
+      <input
+        class="form-control border-end-0 border"
+        type="search"
+        [(ngModel)]="searchText"
+        (keyup.enter)="searchNewsFeeds()"
+        autocomplete="off"
+        placeholder="Start searching for a news feeds"
+      />
+      <!-- <span class="input-group-append">
+        <button
+          (click)="searchNewsFeeds()"
+          class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5 p-2"
+          type="button"
+        >
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </span> -->
+    </div>
+  </div>
+  <div class="col">
+    <a
+      class="btn btn-outline-success bg-white border-start-0 border-bottom-0 border ms-n5 float-end"
+      type="button"
+      routerLink="/createnewsfeed"
+    >
+      <fa-icon [icon]="faAdd"></fa-icon>
+      Create News
+    </a>
+  </div>
+</div>
+<div class="content" *ngIf="news?.length; else noNews">
+  <ngb-alert
+    class="mt-3 mb-0"
+    #selfClosingAlert
+    *ngIf="alertMessage"
+    [type]="alertMessageType"
+    (closed)="alertMessage = ''"
+    >{{ alertMessage }}
+  </ngb-alert>
+  <div class="row">
+    <ul class="col">
+      <li *ngFor="let newsItem of news" class="list-group-item pt-3">
+        <div class="card text-start">
+          <div class="card-header m-0 row">
+            <span class="col ps-0 text-start"
+              ><b>Category:</b> {{ newsItem.categoryName }}
+            </span>
+            <span class="col pe-0 text-end"> {{ newsItem.createdDate }}</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ newsItem.title }}</h5>
+            <p class="card-text">
+              {{ newsItem.summary }}
+            </p>
+            <div class="">
+              <a
+                [routerLink]="['/updatenewsfeed', newsItem.id]"
+                class="btn btn-success border-start-0 border-bottom-0 border ms-n5"
+                type="button"
+              >
+                <fa-icon [icon]="faPencil"></fa-icon>
+                Edit
+              </a>
+
+              <button
+                (click)="onDeleteNews(newsItem.id)"
+                class="ms-3 btn btn-danger border-start-0 border-bottom-0 border ms-n5"
+                type="button"
+              >
+                <fa-icon [icon]="faTrash"></fa-icon>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p class="pre float-start py-2">
+        {{ (currentPage - 1) * pageSize + 1 }} to
+        {{
+          (currentPage - 1) * pageSize + pageSize > totalRecords
+            ? totalRecords
+            : (currentPage - 1) * pageSize + pageSize
+        }}
+        of {{ totalRecords }} record(s).
+      </p>
+    </div>
+    <div class="col">
+      <ngb-pagination
+        class="pagination justify-content-end"
+        [collectionSize]="totalRecords"
+        [(page)]="currentPage"
+        [pageSize]="pageSize"
+        [maxSize]="5"
+        [rotate]="false"
+        (pageChange)="onPageChange(currentPage)"
+        [boundaryLinks]="true"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
+<ng-template #noNews>
+  <h2 *ngIf="!isLoading" class="m-5">No news feeds available.</h2>
+</ng-template>
+
+<app-confirm-dialog></app-confirm-dialog>
+
+<div
+  class="position-fixed d-flex align-items-center justify-content-center w-100 h-100 bg-dark bg-opacity-50 text-white lead fw-bold"
+  style="z-index: 4; top: 0; left: 0"
+  *ngIf="isLoading"
+>
+  Loading...
+</div>

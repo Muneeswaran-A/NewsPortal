@@ -1,0 +1,11 @@
+.input-group
+  > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(
+    .valid-feedback
+  ):not(.invalid-tooltip):not(.invalid-feedback) {
+  margin-left: calc(var(--bs-border-width) * -5) !important;
+}
+
+.btn-outline-success:hover {
+  color: #04ca46 !important;
+  background-color: azure;
+}

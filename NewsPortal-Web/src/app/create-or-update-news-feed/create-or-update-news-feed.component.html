@@ -1,0 +1,118 @@
+<div class="container px-0">
+  <h3 class="mb-3">{{ pageTitle }}</h3>
+  <ngb-alert
+    class="mb-3 mx-0 px-0"
+    #selfClosingAlert
+    *ngIf="alertMessage"
+    [type]="alertMessageType"
+    (closed)="alertMessage = ''"
+    >{{ alertMessage }}
+  </ngb-alert>
+  <form
+    class="px-2"
+    #newsfeedForm="ngForm"
+    (ngSubmit)="newsfeedForm.form.valid && onSubmit(newsfeedForm)"
+  >
+    <div class="form-group row row-cols-auto mb-3">
+      <label class="ps-0" for="title">Title</label>
+      <input
+        type="text"
+        name="title"
+        aria-label="title"
+        class="form-control"
+        [(ngModel)]="model.title"
+        #title="ngModel"
+        [ngClass]="{ 'is-invalid': newsfeedForm.submitted && title.invalid }"
+        required
+      />
+      <div
+        class="invalid-feedback ps-0"
+        *ngIf="newsfeedForm.submitted && title.invalid"
+      >
+        <div class="float-start" *ngIf="title.invalid">Title is required</div>
+      </div>
+    </div>
+    <div class="form-group row row-cols-auto mb-3">
+      <label class="ps-0" for="summary">Summary</label>
+      <input
+        type="text"
+        aria-label="summary"
+        class="form-control"
+        name="summary"
+        [(ngModel)]="model.summary"
+        #summary="ngModel"
+        [ngClass]="{ 'is-invalid': newsfeedForm.submitted && summary.invalid }"
+        required
+      />
+      <div
+        *ngIf="newsfeedForm.submitted && summary.invalid"
+        class="invalid-feedback ps-0"
+      >
+        <div class="float-start" *ngIf="summary.invalid">
+          Summary is required
+        </div>
+      </div>
+    </div>
+    <div class="form-group row row-cols-auto mb-3">
+      <label class="ps-0" for="description">Description</label>
+      <textarea
+        rows="10"
+        aria-label="description"
+        class="form-control"
+        name="description"
+        [(ngModel)]="model.description"
+        #description="ngModel"
+        [ngClass]="{
+          'is-invalid': newsfeedForm.submitted && description.invalid
+        }"
+        required
+      ></textarea>
+      <div
+        *ngIf="newsfeedForm.submitted && description.invalid"
+        class="invalid-feedback ps-0"
+      >
+        <div class="float-start" *ngIf="description.invalid">
+          Description is required
+        </div>
+      </div>
+    </div>
+    <div class="form-group row row-cols-auto mb-3">
+      <label class="ps-0" for="category">Category</label>
+      <select
+        class="form-control"
+        aria-label="category"
+        name="categoryId"
+        [(ngModel)]="model.categoryId"
+        #categoryId="ngModel"
+        required
+      >
+        <option value="" disabled>Select a category</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+      <div
+        *ngIf="newsfeedForm.submitted && categoryId.invalid"
+        class="invalid-feedback ps-0"
+      >
+        <div class="float-start" *ngIf="categoryId.invalid">
+          Category is required
+        </div>
+      </div>
+    </div>
+    <div class="form-group row row-cols-auto mb-3 float-end">
+      <button class="btn btn-success btn-block">
+        <fa-icon [icon]="faSave"></fa-icon>
+        {{ submitButtonText }}
+      </button>
+    </div>
+  </form>
+</div>
+
+<div
+  class="position-fixed d-flex align-items-center justify-content-center w-100 h-100 bg-dark bg-opacity-50 text-white lead fw-bold"
+  style="z-index: 4; top: 0; left: 0"
+  *ngIf="isLoading"
+>
+  Loading...
+</div>

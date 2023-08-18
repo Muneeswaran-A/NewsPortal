@@ -17,10 +17,13 @@ import { AboutComponent } from './about/about.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { CreateOrUpdateNewsFeedComponent } from './create-or-update-news-feed/create-or-update-news-feed.component';
+import { DateAgoPipe } from './pipes/DateAgoPipe';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
     HomeComponent,
+    DateAgoPipe,
     AppComponent,
     AppHeaderComponent,
     AppFooterComponent,
@@ -40,7 +43,7 @@ import { CreateOrUpdateNewsFeedComponent } from './create-or-update-news-feed/cr
     ReactiveFormsModule,
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

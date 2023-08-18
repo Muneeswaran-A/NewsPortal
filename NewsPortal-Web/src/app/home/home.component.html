@@ -48,7 +48,9 @@
             <span class="col ps-0 text-start"
               ><b>Category:</b> {{ newsItem.categoryName }}
             </span>
-            <span class="col pe-0 text-end"> {{ newsItem.createdDate }}</span>
+            <span class="col pe-0 text-end">
+              {{ newsItem.createdDate | dateAgo }}</span
+            >
           </div>
           <div class="card-body">
             <h5 class="card-title">{{ newsItem.title }}</h5>
